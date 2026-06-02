@@ -556,15 +556,8 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
-                    const userResp = await fetch(`${API_URL}/auth/me`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (userResp.ok) {
-                        currentUser = await userResp.json();
-                        showApp();
-                    } else {
-                        logout();
-                    }
+                    currentUser = { name: 'User' };
+                    showApp();
                 } else if (response.status === 401) {
                     logout();
                 } else {
@@ -676,7 +669,7 @@
 
                 if (response.ok && data) {
                     token = data.access_token;
-                    currentUser = data.user;
+                    currentUser = data.user || { name: email.split('@')[0] };
                     localStorage.setItem('token', token);
                     showApp();
                 } else {
@@ -827,7 +820,7 @@
         }
 
         function selectGroup(id, name, description) {
-            currentGroupId = id;
+            currentGroupId = parseInt(id);
             document.getElementById('groupsList').style.display = 'none';
             document.getElementById('groupDetails').style.display = 'block';
             document.getElementById('detailGroupName').textContent = name || 'Unnamed Group';
@@ -853,7 +846,6 @@
                 if (!response.ok) {
                     let data;
                     try { data = await response.json(); } catch(e) { data = null; }
-                    console.error('Expenses load error:', response.status, data);
                     list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses (${response.status})</div>`;
                     return;
                 }
@@ -901,7 +893,6 @@
                     list.appendChild(div);
                 });
             } catch (err) {
-                console.error('Expenses catch error:', err);
                 list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses</div>';
             }
         }
@@ -923,8 +914,6 @@
                 paid_by_id,
                 splits: []
             };
-            
-            console.log('Sending expense payload:', JSON.stringify(payload, null, 2));
 
             try {
                 const response = await fetch(`${API_URL}/expenses/`, {
@@ -938,8 +927,6 @@
 
                 let data;
                 try { data = await response.json(); } catch(e) { data = null; }
-                
-                console.log('Expense response:', response.status, data);
 
                 if (response.status === 401) {
                     logout();
@@ -967,7 +954,6 @@
                     alert(errorMsg);
                 }
             } catch (err) {
-                console.error('Add expense network error:', err);
                 alert('Network error - please try again');
             }
         }
@@ -987,38 +973,38 @@
                 }
 
                 if (!response.ok) {
-                    let data;
-                    try { data = await response.json(); } catch(e) { data = null; }
-                    console.error('Balances error:', response.status, data);
-                    list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances (${response.status})</div>`;
+                    let errorText = '';
+                    try {
+                        const errData = await response.json();
+                        errorText = JSON.stringify(errData);
+                    } catch(e) {
+                        errorText = response.statusText;
+                    }
+                    list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error: ${response.status} - ${errorText}</div>`;
                     return;
                 }
 
                 const balances = await response.json();
-                console.log('Raw balances data:', JSON.stringify(balances, null, 2));
                 
-                // Handle different response formats from backend
+                // Backend returns: {"1": {"name": "vignesh", "amount": 100.0}, ...}
                 let balanceEntries = [];
                 
-                if (Array.isArray(balances)) {
+                if (balances && typeof balances === 'object' && !Array.isArray(balances)) {
+                    // Object format from backend
+                    for (const [userId, userData] of Object.entries(balances)) {
+                        if (userData && typeof userData === 'object') {
+                            balanceEntries.push({
+                                name: userData.name || userData.user_name || `User ${userId}`,
+                                amount: parseFloat(userData.amount || 0)
+                            });
+                        }
+                    }
+                } else if (Array.isArray(balances)) {
                     balanceEntries = balances.map(b => ({
                         name: b.user_name || b.name || 'Unknown',
                         amount: parseFloat(b.amount || 0)
                     }));
-                } else if (balances && typeof balances === 'object') {
-                    balanceEntries = Object.entries(balances).map(([key, value]) => {
-                        if (typeof value === 'object' && value !== null) {
-                            return {
-                                name: value.name || value.user_name || key,
-                                amount: parseFloat(value.amount || 0)
-                            };
-                        } else {
-                            return { name: key, amount: parseFloat(value || 0) };
-                        }
-                    });
                 }
-                
-                console.log('Processed balances:', balanceEntries);
                 
                 if (balanceEntries.length === 0) {
                     list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">All settled up!</div>';
@@ -1040,8 +1026,7 @@
                     list.appendChild(div);
                 });
             } catch (err) {
-                console.error('Balances catch error:', err);
-                list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances</div>';
+                list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error: ${err.message}</div>`;
             }
         }
 
