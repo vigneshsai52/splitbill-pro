@@ -1,136 +1,206 @@
-<div align="center">
-💰 SplitBill Pro
-Full-Stack Expense Splitting SaaS
-Create groups, add expenses, track who owes whom — all in real-time.
-https://splitbill-pro-two.vercel.app
-https://splitbill-pro-1.onrender.com
-https://splitbill-pro-1.onrender.com/docs
-</div>
-✨ Features
-Table
-Feature	Description
-🔐 User Auth	JWT-based registration & login with bcrypt hashing
-👥 Group Management	Create expense groups, add members by email
-💸 Expense Tracking	Add expenses with automatic split calculation
-📊 Real-time Balances	See who owes whom at a glance
-🗑️ Delete Groups	Remove groups with confirmation modal
-🎨 Modern UI	Responsive design with gradient backgrounds
-🛠️ Tech Stack
-Backend
-Python 3.12
-FastAPI — High-performance async web framework
-SQLAlchemy — ORM for database operations
-SQLite (local) / PostgreSQL (production)
-JWT — Token-based authentication
-bcrypt — Secure password hashing
-Frontend
-HTML5 — Semantic markup
-CSS3 — Flexbox, Grid, animations
-Vanilla JavaScript — No frameworks, pure JS
-DevOps
-Render — Backend hosting
-Vercel — Frontend hosting
-GitHub — Version control
-🚀 Quick Start
-Prerequisites
-Python 3.8+
-pip
-Local Setup
-bash
-# 1. Clone the repository
-git clone https://github.com/vigneshsai52/splitbill-pro.git
-cd splitbill-pro
+============================================================
+           💰 SplitBill Pro
+     Full-Stack Expense Splitting SaaS
+  Create groups, add expenses, track who owes whom
+============================================================
 
-# 2. Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+Live App    : https://splitbill-pro-two.vercel.app
+Backend API : https://splitbill-pro-1.onrender.com
+API Docs    : https://splitbill-pro-1.onrender.com/docs
 
-# 3. Install dependencies
-pip install -r requirements.txt
+------------------------------------------------------------
+📌 OVERVIEW
+------------------------------------------------------------
+SplitBill Pro is a full-stack web application that simplifies
+shared expense management. Whether you're splitting rent,
+travel costs, or dinner bills, SplitBill Pro keeps everyone
+on the same page with real-time balance tracking and
+automatic split calculations.
 
-# 4. Run the backend
-python -m uvicorn app.main:app --reload
+------------------------------------------------------------
+✨ FEATURES
+------------------------------------------------------------
+🔐 User Authentication
+   JWT-based registration & login with bcrypt password hashing
 
-# 5. Open frontend
-# Simply open frontend/index.html in your browser
-# Or use Live Server extension in VS Code
-Environment Variables
-Create a .env file in the root:
-env
-DATABASE_URL=sqlite:///./splitbill.db
-SECRET_KEY=your-secret-key-here
-📡 API Endpoints
-Table
-Method	Endpoint	Description
-POST	/auth/register	Register new user
-POST	/auth/login	Login user (OAuth2)
-GET	/auth/me	Get current user
-POST	/groups/	Create new group
-GET	/groups/	Get my groups
-DELETE	/groups/{id}	Delete group
-POST	/expenses/	Create expense
-GET	/expenses/group/{id}	Get group expenses
-GET	/expenses/balances/{id}	Get group balances
-Full API Documentation: https://splitbill-pro-1.onrender.com/docs
-🌐 Live Deployment
-Table
-Component	URL	Status
-Frontend	https://splitbill-pro-two.vercel.app	✅ Live
-Backend API	https://splitbill-pro-1.onrender.com	✅ Live
-Swagger Docs	https://splitbill-pro-1.onrender.com/docs	✅ Live
-📸 Screenshots
-Authentication
-Clean login/register interface
-Form validation with error messages
-Dashboard
-Create groups with name and description
-View all groups in card layout
-Click group to view details
-Group Details
-Add expenses with description, amount, payer
-View all expenses in list
-Real-time balance calculation
-🧠 What I Learned
-Table
-Challenge	Solution
-JWT Authentication	Implemented secure token-based auth with refresh
-Database Relationships	Used SQLAlchemy many-to-many for group members
-CORS Issues	Configured proper CORS for Render/Vercel
-OAuth2 Login	Implemented form-based auth for FastAPI
-Real-time Balances	Calculated on-the-fly from expense splits
-Deployment	Deployed full-stack on Render + Vercel
-🗂️ Project Structure
-plain
+👥 Group Management
+   Create expense groups and add members by email
+
+💸 Expense Tracking
+   Add expenses with automatic equal-split calculation
+
+📊 Real-time Balances
+   Instantly see who owes whom across each group
+
+🗑️ Delete Groups
+   Remove groups with a confirmation modal to prevent accidents
+
+🎨 Modern UI
+   Responsive single-page app with gradient backgrounds
+
+------------------------------------------------------------
+🛠️ TECH STACK
+------------------------------------------------------------
+
+BACKEND
+-------
+  Python 3.12        - Core language
+  FastAPI            - High-performance async web framework
+  SQLAlchemy         - ORM for database operations
+  SQLite / PostgreSQL - Database (local / production)
+  JWT                - Token-based authentication
+  bcrypt             - Secure password hashing
+
+FRONTEND
+--------
+  HTML5              - Semantic markup
+  CSS3               - Flexbox, Grid, animations
+  Vanilla JavaScript - No frameworks, pure JS
+
+DEVOPS
+------
+  Render             - Backend hosting
+  Vercel             - Frontend hosting
+  GitHub             - Version control
+
+------------------------------------------------------------
+🚀 QUICK START
+------------------------------------------------------------
+
+Prerequisites:
+  - Python 3.8+
+  - pip
+
+Steps:
+
+1. Clone the repository
+   git clone https://github.com/vigneshsai52/splitbill-pro.git
+   cd splitbill-pro
+
+2. Create and activate virtual environment
+   python -m venv venv
+   source venv/bin/activate        (macOS/Linux)
+   venv\Scripts\activate           (Windows)
+
+3. Install dependencies
+   pip install -r requirements.txt
+
+4. Run the backend server
+   python -m uvicorn app.main:app --reload
+
+5. Open the frontend
+   Open frontend/index.html in your browser
+   OR use Live Server extension in VS Code
+
+------------------------------------------------------------
+⚙️ ENVIRONMENT VARIABLES
+------------------------------------------------------------
+Create a .env file in the project root:
+
+   DATABASE_URL=sqlite:///./splitbill.db
+   SECRET_KEY=your-secret-key-here
+
+NOTE: Never commit your .env file. Add it to .gitignore
+
+------------------------------------------------------------
+📡 API ENDPOINTS
+------------------------------------------------------------
+
+AUTHENTICATION
+  POST   /auth/register          Register a new user
+  POST   /auth/login             Login (OAuth2 form-based)
+  GET    /auth/me                Get current authenticated user
+
+GROUPS
+  POST   /groups/                Create a new group
+  GET    /groups/                Get all groups for current user
+  DELETE /groups/{id}            Delete a group by ID
+
+EXPENSES
+  POST   /expenses/              Create a new expense
+  GET    /expenses/group/{id}    Get all expenses in a group
+  GET    /expenses/balances/{id} Get balance summary for a group
+
+Full interactive docs: https://splitbill-pro-1.onrender.com/docs
+
+------------------------------------------------------------
+🌐 DEPLOYMENT
+------------------------------------------------------------
+  Frontend   : https://splitbill-pro-two.vercel.app    ✅ Live
+  Backend    : https://splitbill-pro-1.onrender.com    ✅ Live
+  Swagger    : https://splitbill-pro-1.onrender.com/docs ✅ Live
+
+------------------------------------------------------------
+🗂️ PROJECT STRUCTURE
+------------------------------------------------------------
 splitbill-pro/
 ├── app/
 │   ├── __init__.py
-│   ├── main.py              # FastAPI application
-│   ├── database.py          # Database config
-│   ├── models.py            # SQLAlchemy models
-│   ├── schemas.py           # Pydantic schemas
-│   ├── auth.py              # Authentication logic
+│   ├── main.py              # FastAPI application entry point
+│   ├── database.py          # Database configuration
+│   ├── models.py            # SQLAlchemy ORM models
+│   ├── schemas.py           # Pydantic request/response schemas
+│   ├── auth.py              # Authentication logic (JWT + bcrypt)
 │   └── routers/
 │       ├── __init__.py
 │       ├── auth.py          # Auth routes
 │       ├── groups.py        # Group routes
 │       └── expenses.py      # Expense routes
 ├── frontend/
-│   └── index.html           # Single-page frontend
+│   └── index.html           # Single-page frontend application
+├── .env                     # Environment variables (not committed)
 ├── requirements.txt         # Python dependencies
-└── README.md               # This file
-🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-Fork the repository
-Create your feature branch (git checkout -b feature/AmazingFeature)
-Commit your changes (git commit -m 'Add some AmazingFeature')
-Push to the branch (git push origin feature/AmazingFeature)
-Open a Pull Request
-📄 License
+└── README.md                # Project documentation
+
+------------------------------------------------------------
+🧠 WHAT I LEARNED
+------------------------------------------------------------
+JWT Authentication
+  Built secure token-based auth with bcrypt hashing
+  and expiry handling
+
+Database Relationships
+  Used SQLAlchemy many-to-many relationships for group members
+
+CORS Issues
+  Configured CORS middleware properly for cross-origin
+  Render <-> Vercel communication
+
+OAuth2 Login
+  Implemented OAuth2PasswordRequestForm for FastAPI-native login
+
+Real-time Balances
+  Computed balances on-the-fly from raw expense splits
+  No separate balance table needed
+
+Full-Stack Deployment
+  Deployed backend on Render (with PostgreSQL) and
+  frontend on Vercel independently
+
+------------------------------------------------------------
+🤝 CONTRIBUTING
+------------------------------------------------------------
+Contributions, issues, and feature requests are welcome!
+
+  git checkout -b feature/YourFeature
+  git commit -m "Add YourFeature"
+  git push origin feature/YourFeature
+  Open a Pull Request on GitHub
+
+------------------------------------------------------------
+📄 LICENSE
+------------------------------------------------------------
 This project is licensed under the MIT License.
-👨‍💻 Author
+
+------------------------------------------------------------
+👨‍💻 AUTHOR
+------------------------------------------------------------
 Vignesh Sai
-GitHub: @vigneshsai52
-LinkedIn: Your LinkedIn
-<div align="center">
-Built with ❤️ using FastAPI & Vanilla JS
-</div>
+
+  GitHub   : https://github.com/vigneshsai52
+  LinkedIn : https://linkedin.com/in/your-linkedin
+
+------------------------------------------------------------
+     Built with ❤️ using FastAPI & Vanilla JS
+     ⭐ Star this repo if you found it helpful!
+------------------------------------------------------------
