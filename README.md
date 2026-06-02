@@ -133,7 +133,7 @@ SECRET_KEY=your-secret-key-here
 
 | Service | URL | Status |
 |---------|-----|--------|
-| Frontend | [splitbill-pro-two.vercel.app](https://splitbill-pro-two.vercel.app) | ✅ Live |
+| Frontend | [splitbill-pro-two.vercel.app](https://splitbill-puizocmij-documind-ai-s-projects.vercel.app/) | ✅ Live |
 | Backend | [splitbill-pro-1.onrender.com](https://splitbill-pro-1.onrender.com) | ✅ Live |
 | Swagger | [splitbill-pro-1.onrender.com/docs](https://splitbill-pro-1.onrender.com/docs) | ✅ Live |
 
