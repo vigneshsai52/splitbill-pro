@@ -995,26 +995,50 @@
                 }
 
                 const balances = await response.json();
-                console.log('Balances data:', balances);
+                console.log('Raw balances data:', JSON.stringify(balances, null, 2));
                 
-                if (!balances || Object.keys(balances).length === 0) {
+                // Handle different response formats from backend
+                let balanceEntries = [];
+                
+                if (Array.isArray(balances)) {
+                    balanceEntries = balances.map(b => ({
+                        name: b.user_name || b.name || 'Unknown',
+                        amount: parseFloat(b.amount || 0)
+                    }));
+                } else if (balances && typeof balances === 'object') {
+                    balanceEntries = Object.entries(balances).map(([key, value]) => {
+                        if (typeof value === 'object' && value !== null) {
+                            return {
+                                name: value.name || value.user_name || key,
+                                amount: parseFloat(value.amount || 0)
+                            };
+                        } else {
+                            return { name: key, amount: parseFloat(value || 0) };
+                        }
+                    });
+                }
+                
+                console.log('Processed balances:', balanceEntries);
+                
+                if (balanceEntries.length === 0) {
                     list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">All settled up!</div>';
                     return;
                 }
 
                 list.innerHTML = '';
-                for (const [user, amount] of Object.entries(balances)) {
+                balanceEntries.forEach(entry => {
                     const div = document.createElement('div');
                     div.className = 'balance-item';
+                    const amount = entry.amount;
                     const isPositive = amount >= 0;
                     div.innerHTML = `
-                        <span>${user}</span>
+                        <span>${entry.name}</span>
                         <span class="${isPositive ? 'balance-positive' : 'balance-negative'}">
                             ${isPositive ? '+' : ''}₹${amount.toFixed(2)}
                         </span>
                     `;
                     list.appendChild(div);
-                }
+                });
             } catch (err) {
                 console.error('Balances catch error:', err);
                 list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances</div>';
