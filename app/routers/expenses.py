@@ -8,10 +8,12 @@ router = APIRouter()
 @router.post("/", response_model=schemas.ExpenseResponse)
 def create_expense(
     expense: schemas.ExpenseCreate,
-    group_id: int,
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(auth.get_current_user)
 ):
+    # group_id is now in the request body
+    group_id = expense.group_id
+    
     # Verify group exists and user is member
     group = db.query(models.Group).filter(models.Group.id == group_id).first()
     if not group or current_user not in group.members:
@@ -25,7 +27,7 @@ def create_expense(
         group_id=group_id
     )
     db.add(db_expense)
-    db.flush()  # Get expense ID
+    db.flush()
 
     # Create splits
     for split in expense.splits:

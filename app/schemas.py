@@ -47,6 +47,7 @@ class ExpenseCreate(BaseModel):
     description: str
     amount: float
     paid_by_id: int
+    group_id: int
     splits: List[ExpenseSplitCreate]
 
 class ExpenseResponse(BaseModel):
