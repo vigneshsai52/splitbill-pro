@@ -770,7 +770,6 @@
                         </div>
                     `;
                     
-                    // Click on card body opens group, click delete opens modal
                     div.addEventListener('click', function(e) {
                         if (e.target.classList.contains('delete-btn')) {
                             e.stopPropagation();
@@ -852,13 +851,15 @@
                 }
 
                 if (!response.ok) {
-                    list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses</div>';
+                    let data;
+                    try { data = await response.json(); } catch(e) { data = null; }
+                    console.error('Expenses load error:', response.status, data);
+                    list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses (${response.status})</div>`;
                     return;
                 }
 
                 const expenses = await response.json();
                 
-                // Load members for dropdown
                 const membersResponse = await fetch(`${API_URL}/groups/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -900,6 +901,7 @@
                     list.appendChild(div);
                 });
             } catch (err) {
+                console.error('Expenses catch error:', err);
                 list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses</div>';
             }
         }
@@ -914,6 +916,16 @@
                 return;
             }
 
+            const payload = {
+                description,
+                amount,
+                group_id: currentGroupId,
+                paid_by_id,
+                splits: []
+            };
+            
+            console.log('Sending expense payload:', JSON.stringify(payload, null, 2));
+
             try {
                 const response = await fetch(`${API_URL}/expenses/`, {
                     method: 'POST',
@@ -921,14 +933,13 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({
-                        description,
-                        amount,
-                        group_id: currentGroupId,
-                        paid_by_id,
-                        splits: []
-                    })
+                    body: JSON.stringify(payload)
                 });
+
+                let data;
+                try { data = await response.json(); } catch(e) { data = null; }
+                
+                console.log('Expense response:', response.status, data);
 
                 if (response.status === 401) {
                     logout();
@@ -942,12 +953,21 @@
                     loadExpenses();
                     loadBalances();
                 } else {
-                    let data;
-                    try { data = await response.json(); } catch(e) { data = null; }
-                    const msg = data && data.detail ? (Array.isArray(data.detail) ? data.detail.map(e=>e.msg).join(', ') : data.detail) : 'Failed to add expense';
-                    alert(msg);
+                    let errorMsg = 'Failed to add expense';
+                    if (data && Array.isArray(data.detail)) {
+                        errorMsg = data.detail.map(e => {
+                            const field = e.loc && e.loc.length > 0 ? e.loc[e.loc.length - 1] : 'field';
+                            return `${field}: ${e.msg}`;
+                        }).join('\n');
+                    } else if (data && data.detail) {
+                        errorMsg = JSON.stringify(data.detail);
+                    } else if (data && data.message) {
+                        errorMsg = data.message;
+                    }
+                    alert(errorMsg);
                 }
             } catch (err) {
+                console.error('Add expense network error:', err);
                 alert('Network error - please try again');
             }
         }
@@ -967,13 +987,17 @@
                 }
 
                 if (!response.ok) {
-                    list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances</div>';
+                    let data;
+                    try { data = await response.json(); } catch(e) { data = null; }
+                    console.error('Balances error:', response.status, data);
+                    list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances (${response.status})</div>`;
                     return;
                 }
 
                 const balances = await response.json();
+                console.log('Balances data:', balances);
                 
-                if (Object.keys(balances).length === 0) {
+                if (!balances || Object.keys(balances).length === 0) {
                     list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">All settled up!</div>';
                     return;
                 }
@@ -992,6 +1016,7 @@
                     list.appendChild(div);
                 }
             } catch (err) {
+                console.error('Balances catch error:', err);
                 list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances</div>';
             }
         }
