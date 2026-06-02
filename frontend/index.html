@@ -115,6 +115,32 @@
             background: #667eea;
             color: white;
         }
+
+        .group-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .group-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .group-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 10px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
     </style>
 <base target="_blank">
 </head>
@@ -187,11 +213,16 @@
 
             <!-- Selected Group -->
             <div id="groupDetails" class="card hidden">
-                <h3 id="selectedGroupName"></h3>
+                <!-- Group Info Display -->
+                <div class="group-info">
+                    <h3 id="selectedGroupName"></h3>
+                    <p id="selectedGroupDesc"></p>
+                </div>
 
                 <!-- Add Expense -->
+                <div class="section-title">➕ Add New Expense</div>
                 <div class="form-group">
-                    <label>Description</label>
+                    <label>Expense Description</label>
                     <input type="text" id="expenseDesc" placeholder="Dinner at Restaurant">
                 </div>
                 <div class="form-group">
@@ -205,11 +236,11 @@
                 <button onclick="addExpense()">Add Expense</button>
 
                 <!-- Expenses List -->
-                <h4 style="margin-top: 20px;">📋 Expenses</h4>
+                <div class="section-title">📋 Expenses</div>
                 <div id="expensesList"></div>
 
                 <!-- Balances -->
-                <h4 style="margin-top: 20px;">💰 Balances</h4>
+                <div class="section-title">💰 Balances</div>
                 <div id="balancesList"></div>
             </div>
         </div>
@@ -220,6 +251,7 @@ const API_URL = 'https://splitbill-pro-1.onrender.com';
         let token = localStorage.getItem('token');
         let currentGroup = null;
         let currentUser = null;
+        let currentGroupDesc = '';
 
         // Check if already logged in
         if (token) {
@@ -378,7 +410,7 @@ const API_URL = 'https://splitbill-pro-1.onrender.com';
 
                 const groups = await response.json();
                 const html = groups.map(g => `
-                    <div class="group-item" onclick="selectGroup(${g.id}, '${g.name.replace(/'/g, "\'")}')">
+                    <div class="group-item" onclick="selectGroup(${g.id}, '${g.name.replace(/'/g, "\'")}', '${(g.description || '').replace(/'/g, "\'")}')">
                         <strong>${g.name}</strong>
                         <p style="color: #666; font-size: 0.9rem;">${g.description || 'No description'}</p>
                     </div>
@@ -390,10 +422,12 @@ const API_URL = 'https://splitbill-pro-1.onrender.com';
             }
         }
 
-        async function selectGroup(groupId, groupName) {
+        async function selectGroup(groupId, groupName, groupDesc) {
             currentGroup = groupId;
+            currentGroupDesc = groupDesc || 'No description';
             document.getElementById('groupDetails').classList.remove('hidden');
             document.getElementById('selectedGroupName').textContent = groupName;
+            document.getElementById('selectedGroupDesc').textContent = currentGroupDesc;
 
             // Load members for dropdown
             const response = await fetch(`${API_URL}/groups/`, {
