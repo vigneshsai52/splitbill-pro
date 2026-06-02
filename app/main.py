@@ -23,3 +23,7 @@ app.include_router(expenses.router, prefix="/expenses", tags=["expenses"])
 @app.get("/")
 def root():
     return {"message": "SplitBill Pro API - Expense splitting made easy"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "service": "SplitBill Pro API"}
