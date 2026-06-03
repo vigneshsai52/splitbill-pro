@@ -51,3 +51,10 @@ class ExpenseResponse(BaseModel):
     created_at: datetime
     class Config:
         from_attributes = True
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+class PasswordReset(BaseModel):
+    token: str
+    new_password: str
