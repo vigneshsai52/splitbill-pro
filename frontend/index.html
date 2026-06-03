@@ -28,6 +28,7 @@
             width: 100%;
             max-width: 800px;
             overflow: hidden;
+            position: relative;
         }
 
         .header {
@@ -120,18 +121,24 @@
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .btn-danger {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
 
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
         }
 
@@ -311,6 +318,46 @@
             font-weight: 600;
         }
 
+        /* Loading Spinner Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 2000;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -397,6 +444,12 @@
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Please wait...</div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>SplitBill Pro</h1>
@@ -421,7 +474,7 @@
                     <label>Password</label>
                     <input type="password" id="loginPassword" placeholder="Enter your password">
                 </div>
-                <button class="btn" onclick="login()">Login</button>
+                <button class="btn" id="loginBtn" onclick="login()">Login</button>
             </div>
 
             <div id="registerForm" style="display: none;">
@@ -437,7 +490,7 @@
                     <label>Password</label>
                     <input type="password" id="regPassword" placeholder="Min 6 characters">
                 </div>
-                <button class="btn" onclick="register()">Register</button>
+                <button class="btn" id="registerBtn" onclick="register()">Register</button>
             </div>
         </div>
 
@@ -464,7 +517,7 @@
                             <label>Description</label>
                             <input type="text" id="groupDesc" placeholder="e.g., Weekend trip expenses">
                         </div>
-                        <button class="btn" onclick="createGroup()">Create Group</button>
+                        <button class="btn" id="createGroupBtn" onclick="createGroup()">Create Group</button>
                     </div>
                 </div>
 
@@ -507,7 +560,7 @@
                                 <select id="paidBy"></select>
                             </div>
                         </div>
-                        <button class="btn" onclick="addExpense()">Add Expense</button>
+                        <button class="btn" id="addExpenseBtn" onclick="addExpense()">Add Expense</button>
                     </div>
                 </div>
 
@@ -543,6 +596,16 @@
         let currentGroupId = null;
         let deleteGroupId = null;
 
+        // Loading overlay functions
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || 'Please wait...';
+            document.getElementById('loadingOverlay').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('show');
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             if (token) {
@@ -551,19 +614,24 @@
         });
 
         async function validateToken() {
+            showLoading('Checking session...');
             try {
                 const response = await fetch(`${API_URL}/groups/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
                     currentUser = { name: 'User' };
+                    hideLoading();
                     showApp();
                 } else if (response.status === 401) {
+                    hideLoading();
                     logout();
                 } else {
+                    hideLoading();
                     logout();
                 }
             } catch (err) {
+                hideLoading();
                 showMessage('authMessage', 'Cannot connect to server. Please try again later.', 'error');
                 logout();
             }
@@ -607,6 +675,10 @@
                 return;
             }
 
+            const btn = document.getElementById('registerBtn');
+            btn.disabled = true;
+            showLoading('Creating account...');
+
             try {
                 const response = await fetch(`${API_URL}/auth/register`, {
                     method: 'POST',
@@ -620,6 +692,9 @@
                 } catch (e) {
                     data = null;
                 }
+
+                hideLoading();
+                btn.disabled = false;
 
                 if (response.ok) {
                     showMessage('authMessage', 'Registration successful! Please login.', 'success');
@@ -640,6 +715,8 @@
                     showMessage('authMessage', errorMsg, 'error');
                 }
             } catch (err) {
+                hideLoading();
+                btn.disabled = false;
                 showMessage('authMessage', 'Network error - check your connection', 'error');
             }
         }
@@ -652,6 +729,10 @@
                 showMessage('authMessage', 'Please fill in all fields', 'error');
                 return;
             }
+
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            showLoading('Logging in... Please wait');
 
             try {
                 const response = await fetch(`${API_URL}/auth/login`, {
@@ -666,6 +747,9 @@
                 } catch (e) {
                     data = null;
                 }
+
+                hideLoading();
+                btn.disabled = false;
 
                 if (response.ok && data) {
                     token = data.access_token;
@@ -688,6 +772,8 @@
                     showMessage('authMessage', errorMsg, 'error');
                 }
             } catch (err) {
+                hideLoading();
+                btn.disabled = false;
                 showMessage('authMessage', 'Network error - check your connection', 'error');
             }
         }
@@ -788,6 +874,10 @@
                 return;
             }
 
+            const btn = document.getElementById('createGroupBtn');
+            btn.disabled = true;
+            showLoading('Creating group...');
+
             try {
                 const response = await fetch(`${API_URL}/groups/`, {
                     method: 'POST',
@@ -797,6 +887,9 @@
                     },
                     body: JSON.stringify({ name, description, member_emails: [] })
                 });
+
+                hideLoading();
+                btn.disabled = false;
 
                 if (response.status === 401) {
                     logout();
@@ -815,6 +908,8 @@
                     alert(msg);
                 }
             } catch (err) {
+                hideLoading();
+                btn.disabled = false;
                 alert('Network error - please try again');
             }
         }
@@ -907,6 +1002,10 @@
                 return;
             }
 
+            const btn = document.getElementById('addExpenseBtn');
+            btn.disabled = true;
+            showLoading('Adding expense...');
+
             const payload = {
                 description,
                 amount,
@@ -924,6 +1023,9 @@
                     },
                     body: JSON.stringify(payload)
                 });
+
+                hideLoading();
+                btn.disabled = false;
 
                 let data;
                 try { data = await response.json(); } catch(e) { data = null; }
@@ -954,6 +1056,8 @@
                     alert(errorMsg);
                 }
             } catch (err) {
+                hideLoading();
+                btn.disabled = false;
                 alert('Network error - please try again');
             }
         }
@@ -986,11 +1090,9 @@
 
                 const balances = await response.json();
                 
-                // Backend returns: {"1": {"name": "vignesh", "amount": 100.0}, ...}
                 let balanceEntries = [];
                 
                 if (balances && typeof balances === 'object' && !Array.isArray(balances)) {
-                    // Object format from backend
                     for (const [userId, userData] of Object.entries(balances)) {
                         if (userData && typeof userData === 'object') {
                             balanceEntries.push({
@@ -1049,11 +1151,15 @@
         async function confirmDelete() {
             if (!deleteGroupId) return;
             
+            showLoading('Deleting group...');
+            
             try {
                 const response = await fetch(`${API_URL}/groups/${deleteGroupId}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
+
+                hideLoading();
 
                 if (response.status === 401) {
                     cancelDelete();
@@ -1076,6 +1182,7 @@
                     cancelDelete();
                 }
             } catch (err) {
+                hideLoading();
                 alert('Network error - please try again');
                 cancelDelete();
             }
