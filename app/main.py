@@ -22,3 +22,13 @@ app.include_router(expenses.router, prefix="/expenses", tags=["expenses"])
 @app.get("/")
 def root():
     return {"message": "API running"}
+
+# ==================== HEALTH CHECK ENDPOINTS ====================
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
+@app.head("/health")
+def health_head():
+    return {"status": "healthy"}
+# ==================== END HEALTH CHECK ====================
