@@ -318,7 +318,6 @@
             font-weight: 600;
         }
 
-        /* Loading Spinner Overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -444,7 +443,6 @@
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="spinner"></div>
         <div class="loading-text" id="loadingText">Please wait...</div>
@@ -456,7 +454,6 @@
             <p>Split expenses with friends, hassle-free</p>
         </div>
 
-        <!-- Auth Section -->
         <div id="authSection" class="auth-section">
             <div class="tabs">
                 <button class="tab active" onclick="showTab('login')">Login</button>
@@ -494,7 +491,6 @@
             </div>
         </div>
 
-        <!-- App Section -->
         <div id="appSection" class="app-section">
             <div class="app-header">
                 <h2>My Dashboard</h2>
@@ -504,7 +500,6 @@
                 </div>
             </div>
 
-            <!-- Groups List -->
             <div id="groupsList">
                 <div class="section">
                     <h3>Create New Group</h3>
@@ -527,7 +522,6 @@
                 </div>
             </div>
 
-            <!-- Group Details -->
             <div id="groupDetails" style="display: none;">
                 <button class="btn btn-small back-btn" onclick="showGroupsList()">← Back to Groups</button>
                 
@@ -577,7 +571,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal-overlay">
         <div class="modal">
             <h3>Delete Group?</h3>
@@ -596,7 +589,6 @@
         let currentGroupId = null;
         let deleteGroupId = null;
 
-        // Loading overlay functions
         function showLoading(text) {
             document.getElementById('loadingText').textContent = text || 'Please wait...';
             document.getElementById('loadingOverlay').classList.add('show');
@@ -606,7 +598,6 @@
             document.getElementById('loadingOverlay').classList.remove('show');
         }
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             if (token) {
                 validateToken();
@@ -623,9 +614,6 @@
                     currentUser = { name: 'User' };
                     hideLoading();
                     showApp();
-                } else if (response.status === 401) {
-                    hideLoading();
-                    logout();
                 } else {
                     hideLoading();
                     logout();
@@ -721,6 +709,7 @@
             }
         }
 
+        // ==================== FIXED LOGIN FUNCTION ====================
         async function login() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
@@ -737,8 +726,8 @@
             try {
                 const response = await fetch(`${API_URL}/auth/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
                 });
 
                 let data;
@@ -777,6 +766,7 @@
                 showMessage('authMessage', 'Network error - check your connection', 'error');
             }
         }
+        // ==================== END FIXED LOGIN ====================
 
         function logout() {
             localStorage.removeItem('token');
