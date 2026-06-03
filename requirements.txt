@@ -23,3 +23,12 @@ typing_extensions==4.15.0
 uvicorn==0.48.0
 email-validator
 bcrypt==4.2.0
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+python-jose
+passlib
+python-multipart
+email-validator
+python-dotenv

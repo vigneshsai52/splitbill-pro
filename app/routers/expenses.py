@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+import csv
+import io
+from fastapi.responses import StreamingResponse
 from app import models, schemas, auth, database
 
 router = APIRouter()
@@ -11,25 +14,22 @@ def create_expense(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(auth.get_current_user)
 ):
-    # group_id is now in the request body
     group_id = expense.group_id
     
-    # Verify group exists and user is member
     group = db.query(models.Group).filter(models.Group.id == group_id).first()
     if not group or current_user not in group.members:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    # Create expense
     db_expense = models.Expense(
         description=expense.description,
         amount=expense.amount,
         paid_by_id=expense.paid_by_id,
-        group_id=group_id
+        group_id=group_id,
+        category=expense.category or "Other"
     )
     db.add(db_expense)
     db.flush()
 
-    # Create splits
     for split in expense.splits:
         db_split = models.ExpenseSplit(
             expense_id=db_expense.id,
@@ -64,17 +64,48 @@ def get_balances(
     if not group or current_user not in group.members:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    # Calculate balances
     balances = {}
     for member in group.members:
         balances[member.id] = {"name": member.name, "amount": 0.0}
 
     for expense in group.expenses:
-        # Payer is owed money
         balances[expense.paid_by_id]["amount"] += expense.amount
-
-        # Others owe money
         for split in expense.splits:
             balances[split.user_id]["amount"] -= split.amount_owed
 
     return balances
+
+@router.get("/export/{group_id}")
+def export_expenses_csv(
+    group_id: int,
+    db: Session = Depends(database.get_db),
+    current_user: models.User = Depends(auth.get_current_user)
+):
+    group = db.query(models.Group).filter(models.Group.id == group_id).first()
+    if not group or current_user not in group.members:
+        raise HTTPException(status_code=404, detail="Group not found")
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    # Header
+    writer.writerow(["Description", "Amount", "Category", "Paid By", "Date"])
+    
+    # Data
+    for expense in group.expenses:
+        payer = expense.paid_by.name if expense.paid_by else "Unknown"
+        writer.writerow([
+            expense.description,
+            expense.amount,
+            expense.category or "Other",
+            payer,
+            expense.created_at.strftime("%Y-%m-%d")
+        ])
+    
+    output.seek(0)
+    
+    return StreamingResponse(
+        io.BytesIO(output.getvalue().encode()),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename=expenses_group_{group_id}.csv"}
+    )

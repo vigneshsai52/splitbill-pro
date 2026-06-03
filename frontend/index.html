@@ -91,16 +91,17 @@
             color: #333;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
             transition: border-color 0.3s;
+            background: white;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -146,6 +147,10 @@
             width: auto;
             padding: 8px 16px;
             font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
         }
 
         .message {
@@ -318,6 +323,38 @@
             font-weight: 600;
         }
 
+        .category-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .category-Food { background: #ff6b6b; color: white; }
+        .category-Travel { background: #4ecdc4; color: white; }
+        .category-Shopping { background: #45b7d1; color: white; }
+        .category-Other { background: #96ceb4; color: white; }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .invite-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
         /* Loading Spinner Overlay */
         .loading-overlay {
             position: fixed;
@@ -416,20 +453,6 @@
             background: #5a6268;
         }
 
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            background: white;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -465,6 +488,7 @@
 
             <div id="authMessage" class="message"></div>
 
+            <!-- Login Form -->
             <div id="loginForm">
                 <div class="form-group">
                     <label>Email</label>
@@ -475,8 +499,10 @@
                     <input type="password" id="loginPassword" placeholder="Enter your password">
                 </div>
                 <button class="btn" id="loginBtn" onclick="login()">Login</button>
+                <div class="forgot-password" onclick="showForgotPassword()">Forgot Password?</div>
             </div>
 
+            <!-- Register Form -->
             <div id="registerForm" style="display: none;">
                 <div class="form-group">
                     <label>Name</label>
@@ -491,6 +517,30 @@
                     <input type="password" id="regPassword" placeholder="Min 6 characters">
                 </div>
                 <button class="btn" id="registerBtn" onclick="register()">Register</button>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordForm" style="display: none;">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="forgotEmail" placeholder="Enter your registered email">
+                </div>
+                <button class="btn" id="forgotBtn" onclick="forgotPassword()">Send Reset Link</button>
+                <div class="forgot-password" onclick="showTab('login')">Back to Login</div>
+            </div>
+
+            <!-- Reset Password Form -->
+            <div id="resetPasswordForm" style="display: none;">
+                <div class="form-group">
+                    <label>Reset Token</label>
+                    <input type="text" id="resetToken" placeholder="Paste token from email">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" placeholder="Min 6 characters">
+                </div>
+                <button class="btn" id="resetBtn" onclick="resetPassword()">Reset Password</button>
+                <div class="forgot-password" onclick="showTab('login')">Back to Login</div>
             </div>
         </div>
 
@@ -538,8 +588,23 @@
                                 <div class="card-title" id="detailGroupName">Group Name</div>
                                 <div class="card-desc" id="detailGroupDesc">Description</div>
                             </div>
-                            <button class="delete-btn" onclick="deleteCurrentGroup()">Delete Group</button>
+                            <div>
+                                <button class="btn btn-small btn-secondary" onclick="exportExpenses()" style="margin-right: 10px;">📥 Export CSV</button>
+                                <button class="delete-btn" onclick="deleteCurrentGroup()">Delete Group</button>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Invite Section -->
+                <div class="invite-section">
+                    <h3>Invite Member</h3>
+                    <div class="card">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="inviteEmail" placeholder="e.g., friend@gmail.com">
+                        </div>
+                        <button class="btn" id="inviteBtn" onclick="inviteMember()">Send Invite</button>
                     </div>
                 </div>
 
@@ -556,9 +621,18 @@
                                 <input type="number" id="expenseAmount" placeholder="e.g., 1000">
                             </div>
                             <div class="form-group">
-                                <label>Paid By</label>
-                                <select id="paidBy"></select>
+                                <label>Category</label>
+                                <select id="expenseCategory">
+                                    <option value="Food">🍔 Food</option>
+                                    <option value="Travel">✈️ Travel</option>
+                                    <option value="Shopping">🛍️ Shopping</option>
+                                    <option value="Other">📦 Other</option>
+                                </select>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Paid By</label>
+                            <select id="paidBy"></select>
                         </div>
                         <button class="btn" id="addExpenseBtn" onclick="addExpense()">Add Expense</button>
                     </div>
@@ -641,16 +715,33 @@
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => t.classList.remove('active'));
             
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('forgotPasswordForm').style.display = 'none';
+            document.getElementById('resetPasswordForm').style.display = 'none';
+            
             if (tab === 'login') {
                 tabs[0].classList.add('active');
                 document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('registerForm').style.display = 'none';
-            } else {
+            } else if (tab === 'register') {
                 tabs[1].classList.add('active');
-                document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('registerForm').style.display = 'block';
             }
             hideMessage('authMessage');
+        }
+
+        function showForgotPassword() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('forgotPasswordForm').style.display = 'block';
+            document.getElementById('resetPasswordForm').style.display = 'none';
+        }
+
+        function showResetPassword() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('forgotPasswordForm').style.display = 'none';
+            document.getElementById('resetPasswordForm').style.display = 'block';
         }
 
         function showMessage(id, text, type) {
@@ -775,6 +866,88 @@
                 hideLoading();
                 btn.disabled = false;
                 showMessage('authMessage', 'Network error - check your connection', 'error');
+            }
+        }
+
+        async function forgotPassword() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            
+            if (!email) {
+                showMessage('authMessage', 'Please enter your email', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('forgotBtn');
+            btn.disabled = true;
+            showLoading('Sending reset link...');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                hideLoading();
+                btn.disabled = false;
+
+                let data;
+                try { data = await response.json(); } catch(e) { data = null; }
+
+                if (response.ok) {
+                    showMessage('authMessage', 'Reset token generated! Check console for token.', 'success');
+                    if (data && data.token) {
+                        console.log('Reset token:', data.token);
+                        // Show reset form with token pre-filled
+                        document.getElementById('resetToken').value = data.token;
+                        showResetPassword();
+                    }
+                } else {
+                    showMessage('authMessage', data && data.detail ? data.detail : 'Failed to send reset link', 'error');
+                }
+            } catch (err) {
+                hideLoading();
+                btn.disabled = false;
+                showMessage('authMessage', 'Network error', 'error');
+            }
+        }
+
+        async function resetPassword() {
+            const token = document.getElementById('resetToken').value.trim();
+            const newPassword = document.getElementById('newPassword').value;
+
+            if (!token || !newPassword) {
+                showMessage('authMessage', 'Please fill in all fields', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('resetBtn');
+            btn.disabled = true;
+            showLoading('Resetting password...');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/reset-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, new_password: newPassword })
+                });
+
+                hideLoading();
+                btn.disabled = false;
+
+                let data;
+                try { data = await response.json(); } catch(e) { data = null; }
+
+                if (response.ok) {
+                    showMessage('authMessage', 'Password reset successful! Please login.', 'success');
+                    showTab('login');
+                } else {
+                    showMessage('authMessage', data && data.detail ? data.detail : 'Failed to reset password', 'error');
+                }
+            } catch (err) {
+                hideLoading();
+                btn.disabled = false;
+                showMessage('authMessage', 'Network error', 'error');
             }
         }
 
@@ -924,6 +1097,90 @@
             loadBalances();
         }
 
+        async function inviteMember() {
+            const email = document.getElementById('inviteEmail').value.trim();
+            
+            if (!email) {
+                alert('Please enter an email');
+                return;
+            }
+
+            const btn = document.getElementById('inviteBtn');
+            btn.disabled = true;
+            showLoading('Sending invite...');
+
+            try {
+                const response = await fetch(`${API_URL}/groups/invite`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ email, group_id: currentGroupId })
+                });
+
+                hideLoading();
+                btn.disabled = false;
+
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+
+                let data;
+                try { data = await response.json(); } catch(e) { data = null; }
+
+                if (response.ok) {
+                    document.getElementById('inviteEmail').value = '';
+                    alert(data && data.message ? data.message : 'Invite sent!');
+                    loadExpenses(); // Refresh member list
+                } else {
+                    alert(data && data.detail ? data.detail : 'Failed to send invite');
+                }
+            } catch (err) {
+                hideLoading();
+                btn.disabled = false;
+                alert('Network error - please try again');
+            }
+        }
+
+        function exportExpenses() {
+            if (!currentGroupId) return;
+            
+            showLoading('Downloading CSV...');
+            
+            fetch(`${API_URL}/expenses/export/${currentGroupId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => {
+                hideLoading();
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+                if (!response.ok) {
+                    alert('Failed to export');
+                    return;
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                if (!blob) return;
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `expenses_group_${currentGroupId}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(err => {
+                hideLoading();
+                alert('Network error');
+            });
+        }
+
         async function loadExpenses() {
             const list = document.getElementById('expensesList');
             list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Loading expenses...</div>';
@@ -978,9 +1235,10 @@
                     const div = document.createElement('div');
                     div.className = 'expense-item';
                     const payer = expense.paid_by ? (expense.paid_by.name || expense.paid_by.email) : 'Unknown';
+                    const category = expense.category || 'Other';
                     div.innerHTML = `
                         <div class="expense-info">
-                            <h4>${expense.description || 'No description'}</h4>
+                            <h4>${expense.description || 'No description'} <span class="category-tag category-${category}">${category}</span></h4>
                             <p>Paid by ${payer} on ${new Date(expense.created_at).toLocaleDateString()}</p>
                         </div>
                         <div class="expense-amount">₹${expense.amount}</div>
@@ -996,6 +1254,7 @@
             const description = document.getElementById('expenseDesc').value.trim();
             const amount = parseFloat(document.getElementById('expenseAmount').value);
             const paid_by_id = parseInt(document.getElementById('paidBy').value);
+            const category = document.getElementById('expenseCategory').value;
 
             if (!description || !amount || !paid_by_id) {
                 alert('Please fill in all fields');
@@ -1011,6 +1270,7 @@
                 amount,
                 group_id: currentGroupId,
                 paid_by_id,
+                category,
                 splits: []
             };
 
