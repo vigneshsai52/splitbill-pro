@@ -15,14 +15,13 @@ class UserResponse(BaseModel):
     id: int
     email: str
     name: str
-
     class Config:
         from_attributes = True
 
 class GroupCreate(BaseModel):
     name: str
     description: Optional[str] = None
-    member_emails: List[str]
+    member_emails: List[str] = []
 
 class GroupResponse(BaseModel):
     id: int
@@ -30,7 +29,6 @@ class GroupResponse(BaseModel):
     description: Optional[str]
     created_at: datetime
     members: List[UserResponse]
-
     class Config:
         from_attributes = True
 
@@ -44,7 +42,7 @@ class ExpenseCreate(BaseModel):
     paid_by_id: int
     group_id: int
     category: Optional[str] = "Other"
-    splits: List[ExpenseSplitCreate]
+    splits: List[ExpenseSplitCreate] = []
 
 class ExpenseResponse(BaseModel):
     id: int
@@ -53,7 +51,6 @@ class ExpenseResponse(BaseModel):
     paid_by_id: int
     category: Optional[str]
     created_at: datetime
-
     class Config:
         from_attributes = True
 

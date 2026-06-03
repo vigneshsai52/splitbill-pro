@@ -1,3 +1,9 @@
+import os
+
+if os.path.exists("splitbill.db"):
+    os.remove("splitbill.db")
+    print("Deleted old database")
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
@@ -5,7 +11,7 @@ from app.routers import auth, groups, expenses
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="SplitBill Pro API")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,8 +27,4 @@ app.include_router(expenses.router, prefix="/expenses", tags=["expenses"])
 
 @app.get("/")
 def root():
-    return {"message": "SplitBill Pro API - Expense splitting made easy"}
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok", "service": "SplitBill Pro API"}
+    return {"message": "API running"}

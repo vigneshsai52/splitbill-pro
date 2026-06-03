@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SplitBill Pro</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -20,7 +15,6 @@
             align-items: center;
             padding: 20px;
         }
-
         .container {
             background: white;
             border-radius: 20px;
@@ -30,34 +24,20 @@
             overflow: hidden;
             position: relative;
         }
-
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 30px;
             text-align: center;
         }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        .auth-section {
-            padding: 40px;
-        }
-
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .header p { opacity: 0.9; font-size: 1.1em; }
+        .auth-section { padding: 40px; }
         .tabs {
             display: flex;
             margin-bottom: 30px;
             border-bottom: 2px solid #e0e0e0;
         }
-
         .tab {
             flex: 1;
             padding: 15px;
@@ -70,27 +50,10 @@
             color: #666;
             transition: all 0.3s;
         }
-
-        .tab.active {
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .tab:hover {
-            color: #667eea;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
-
+        .tab.active { color: #667eea; border-bottom: 3px solid #667eea; }
+        .tab:hover { color: #667eea; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
         .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
@@ -100,17 +63,7 @@
             transition: border-color 0.3s;
             background: white;
         }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-group input::placeholder {
-            color: #aaa;
-            font-style: italic;
-        }
-
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; }
         .btn {
             width: 100%;
             padding: 15px;
@@ -122,63 +75,21 @@
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
         }
-
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        }
-
-        .btn-danger:hover:not(:disabled) {
-            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
-        }
-
-        .btn-small {
-            width: auto;
-            padding: 8px 16px;
-            font-size: 14px;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-        }
-
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .btn-danger { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); }
+        .btn-small { width: auto; padding: 8px 16px; font-size: 14px; }
+        .btn-secondary { background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); }
         .message {
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             display: none;
         }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        .app-section {
-            padding: 40px;
-            display: none;
-        }
-
+        .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+        .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+        .app-section { padding: 40px; display: none; }
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -187,32 +98,11 @@
             padding-bottom: 20px;
             border-bottom: 2px solid #e0e0e0;
         }
-
-        .app-header h2 {
-            color: #333;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 1.3em;
-        }
-
+        .app-header h2 { color: #333; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-name { font-weight: 600; color: #667eea; }
+        .section { margin-bottom: 30px; }
+        .section h3 { margin-bottom: 15px; color: #333; font-size: 1.3em; }
         .card {
             background: #f8f9fa;
             border-radius: 15px;
@@ -221,31 +111,10 @@
             border: 2px solid #e0e0e0;
             transition: all 0.3s;
         }
-
-        .card:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-weight: 600;
-            color: #333;
-            font-size: 1.1em;
-        }
-
-        .card-desc {
-            color: #666;
-            font-size: 0.9em;
-        }
-
+        .card:hover { border-color: #667eea; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .card-title { font-weight: 600; color: #333; font-size: 1.1em; }
+        .card-desc { color: #666; font-size: 0.9em; }
         .delete-btn {
             background: #e74c3c;
             color: white;
@@ -256,27 +125,10 @@
             font-size: 12px;
             font-weight: 600;
         }
-
-        .delete-btn:hover {
-            background: #c0392b;
-        }
-
-        .group-item {
-            cursor: pointer;
-            position: relative;
-        }
-
-        .group-item:hover {
-            background: #e3f2fd;
-            border-color: #2196f3;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
+        .delete-btn:hover { background: #c0392b; }
+        .group-item { cursor: pointer; }
+        .group-item:hover { background: #e3f2fd; border-color: #2196f3; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .expense-item {
             display: flex;
             justify-content: space-between;
@@ -287,42 +139,12 @@
             margin-bottom: 10px;
             border: 1px solid #e0e0e0;
         }
-
-        .expense-info h4 {
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .expense-info p {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .expense-amount {
-            font-weight: 700;
-            color: #667eea;
-            font-size: 1.2em;
-        }
-
-        .balance-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .balance-positive {
-            color: #27ae60;
-            font-weight: 600;
-        }
-
-        .balance-negative {
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
+        .expense-info h4 { color: #333; margin-bottom: 5px; }
+        .expense-info p { color: #666; font-size: 0.9em; }
+        .expense-amount { font-weight: 700; color: #667eea; font-size: 1.2em; }
+        .balance-item { display: flex; justify-content: space-between; padding: 12px; background: white; border-radius: 8px; margin-bottom: 8px; }
+        .balance-positive { color: #27ae60; font-weight: 600; }
+        .balance-negative { color: #e74c3c; font-weight: 600; }
         .category-tag {
             display: inline-block;
             padding: 3px 10px;
@@ -331,36 +153,17 @@
             font-weight: 600;
             margin-left: 10px;
         }
-
         .category-Food { background: #ff6b6b; color: white; }
         .category-Travel { background: #4ecdc4; color: white; }
         .category-Shopping { background: #45b7d1; color: white; }
         .category-Other { background: #96ceb4; color: white; }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-            color: #667eea;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        .invite-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-
+        .forgot-password { text-align: center; margin-top: 15px; color: #667eea; cursor: pointer; font-size: 14px; }
+        .forgot-password:hover { text-decoration: underline; }
+        .invite-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
         .loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(255, 255, 255, 0.95);
             display: none;
             justify-content: center;
@@ -368,53 +171,28 @@
             flex-direction: column;
             z-index: 2000;
         }
-
-        .loading-overlay.show {
-            display: flex;
-        }
-
+        .loading-overlay.show { display: flex; }
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border: 4px solid #e0e0e0;
             border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: #667eea;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { color: #667eea; font-weight: 600; font-size: 16px; }
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
+        .modal-overlay.show { display: flex; }
         .modal {
             background: white;
             padding: 30px;
@@ -423,47 +201,17 @@
             width: 90%;
             text-align: center;
         }
-
-        .modal h3 {
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .modal p {
-            margin-bottom: 20px;
-            color: #666;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .modal-buttons button {
-            flex: 1;
-        }
-
-        .back-btn {
-            background: #6c757d;
-            margin-bottom: 20px;
-        }
-
-        .back-btn:hover {
-            background: #5a6268;
-        }
-
+        .modal h3 { margin-bottom: 15px; color: #333; }
+        .modal p { margin-bottom: 20px; color: #666; }
+        .modal-buttons { display: flex; gap: 10px; }
+        .modal-buttons button { flex: 1; }
+        .back-btn { background: #6c757d; margin-bottom: 20px; }
         @media (max-width: 600px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .app-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
+            .grid { grid-template-columns: 1fr; }
+            .app-header { flex-direction: column; gap: 15px; text-align: center; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div id="loadingOverlay" class="loading-overlay">
@@ -482,56 +230,27 @@
                 <button class="tab active" onclick="showTab('login')">Login</button>
                 <button class="tab" onclick="showTab('register')">Register</button>
             </div>
-
             <div id="authMessage" class="message"></div>
-
             <div id="loginForm">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" placeholder="e.g., yourname@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                </div>
+                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="e.g., yourname@gmail.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter your password"></div>
                 <button class="btn" id="loginBtn" onclick="login()">Login</button>
                 <div class="forgot-password" onclick="showForgotPassword()">Forgot Password?</div>
             </div>
-
             <div id="registerForm" style="display: none;">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" id="regName" placeholder="e.g., Vignesh">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="regEmail" placeholder="e.g., yourname@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="regPassword" placeholder="Min 6 characters">
-                </div>
+                <div class="form-group"><label>Name</label><input type="text" id="regName" placeholder="e.g., Vignesh"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="e.g., yourname@gmail.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min 6 characters"></div>
                 <button class="btn" id="registerBtn" onclick="register()">Register</button>
             </div>
-
             <div id="forgotPasswordForm" style="display: none;">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="forgotEmail" placeholder="Enter your registered email">
-                </div>
+                <div class="form-group"><label>Email</label><input type="email" id="forgotEmail" placeholder="Enter your registered email"></div>
                 <button class="btn" id="forgotBtn" onclick="forgotPassword()">Send Reset Link</button>
                 <div class="forgot-password" onclick="showTab('login')">Back to Login</div>
             </div>
-
             <div id="resetPasswordForm" style="display: none;">
-                <div class="form-group">
-                    <label>Reset Token</label>
-                    <input type="text" id="resetToken" placeholder="Paste token from email">
-                </div>
-                <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" id="newPassword" placeholder="Min 6 characters">
-                </div>
+                <div class="form-group"><label>Reset Token</label><input type="text" id="resetToken" placeholder="Paste token from email"></div>
+                <div class="form-group"><label>New Password</label><input type="password" id="newPassword" placeholder="Min 6 characters"></div>
                 <button class="btn" id="resetBtn" onclick="resetPassword()">Reset Password</button>
                 <div class="forgot-password" onclick="showTab('login')">Back to Login</div>
             </div>
@@ -545,32 +264,22 @@
                     <button class="btn btn-small btn-danger" onclick="logout()">Logout</button>
                 </div>
             </div>
-
             <div id="groupsList">
                 <div class="section">
                     <h3>Create New Group</h3>
                     <div class="card">
-                        <div class="form-group">
-                            <label>Group Name</label>
-                            <input type="text" id="groupName" placeholder="e.g., Trip to Goa">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <input type="text" id="groupDesc" placeholder="e.g., Weekend trip expenses">
-                        </div>
+                        <div class="form-group"><label>Group Name</label><input type="text" id="groupName" placeholder="e.g., Trip to Goa"></div>
+                        <div class="form-group"><label>Description</label><input type="text" id="groupDesc" placeholder="e.g., Weekend trip expenses"></div>
                         <button class="btn" id="createGroupBtn" onclick="createGroup()">Create Group</button>
                     </div>
                 </div>
-
                 <div class="section">
                     <h3>My Groups</h3>
                     <div id="groupsContainer"></div>
                 </div>
             </div>
-
             <div id="groupDetails" style="display: none;">
-                <button class="btn btn-small back-btn" onclick="showGroupsList()">← Back to Groups</button>
-                
+                <button class="btn btn-small back-btn" onclick="showGroupsList()">&larr; Back to Groups</button>
                 <div class="section">
                     <div class="card">
                         <div class="card-header">
@@ -579,63 +288,40 @@
                                 <div class="card-desc" id="detailGroupDesc">Description</div>
                             </div>
                             <div>
-                                <button class="btn btn-small btn-secondary" onclick="exportExpenses()" style="margin-right: 10px;">📥 Export CSV</button>
+                                <button class="btn btn-small btn-secondary" onclick="exportExpenses()" style="margin-right: 10px;">&#128229; Export CSV</button>
                                 <button class="delete-btn" onclick="deleteCurrentGroup()">Delete Group</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="invite-section">
                     <h3>Invite Member</h3>
                     <div class="card">
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="inviteEmail" placeholder="e.g., friend@gmail.com">
-                        </div>
+                        <div class="form-group"><label>Email</label><input type="email" id="inviteEmail" placeholder="e.g., friend@gmail.com"></div>
                         <button class="btn" id="inviteBtn" onclick="inviteMember()">Send Invite</button>
                     </div>
                 </div>
-
                 <div class="section">
                     <h3>Add New Expense</h3>
                     <div class="card">
-                        <div class="form-group">
-                            <label>Description</label>
-                            <input type="text" id="expenseDesc" placeholder="e.g., Dinner at Restaurant">
-                        </div>
+                        <div class="form-group"><label>Description</label><input type="text" id="expenseDesc" placeholder="e.g., Dinner at Restaurant"></div>
                         <div class="grid">
-                            <div class="form-group">
-                                <label>Amount (₹)</label>
-                                <input type="number" id="expenseAmount" placeholder="e.g., 1000">
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
+                            <div class="form-group"><label>Amount (&#8377;)</label><input type="number" id="expenseAmount" placeholder="e.g., 1000"></div>
+                            <div class="form-group"><label>Category</label>
                                 <select id="expenseCategory">
-                                    <option value="Food">🍔 Food</option>
-                                    <option value="Travel">✈️ Travel</option>
-                                    <option value="Shopping">🛍️ Shopping</option>
-                                    <option value="Other">📦 Other</option>
+                                    <option value="Food">&#127828; Food</option>
+                                    <option value="Travel">&#9992; Travel</option>
+                                    <option value="Shopping">&#128717; Shopping</option>
+                                    <option value="Other">&#128230; Other</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Paid By</label>
-                            <select id="paidBy"></select>
-                        </div>
+                        <div class="form-group"><label>Paid By</label><select id="paidBy"></select></div>
                         <button class="btn" id="addExpenseBtn" onclick="addExpense()">Add Expense</button>
                     </div>
                 </div>
-
-                <div class="section">
-                    <h3>Expenses</h3>
-                    <div id="expensesList"></div>
-                </div>
-
-                <div class="section">
-                    <h3>Balances</h3>
-                    <div id="balancesList"></div>
-                </div>
+                <div class="section"><h3>Expenses</h3><div id="expensesList"></div></div>
+                <div class="section"><h3>Balances</h3><div id="balancesList"></div></div>
             </div>
         </div>
     </div>
@@ -662,57 +348,31 @@
             document.getElementById('loadingText').textContent = text || 'Please wait...';
             document.getElementById('loadingOverlay').classList.add('show');
         }
-
         function hideLoading() {
             document.getElementById('loadingOverlay').classList.remove('show');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (token) {
-                validateToken();
-            }
+            if (token) validateToken();
         });
 
         async function validateToken() {
             showLoading('Checking session...');
             try {
-                const response = await fetch(`${API_URL}/groups/`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (response.ok) {
-                    currentUser = { name: 'User' };
-                    hideLoading();
-                    showApp();
-                } else if (response.status === 401) {
-                    hideLoading();
-                    logout();
-                } else {
-                    hideLoading();
-                    logout();
-                }
-            } catch (err) {
-                hideLoading();
-                showMessage('authMessage', 'Cannot connect to server. Please try again later.', 'error');
-                logout();
-            }
+                const response = await fetch(`${API_URL}/groups/`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (response.ok) { currentUser = { name: 'User' }; hideLoading(); showApp(); }
+                else { hideLoading(); logout(); }
+            } catch (err) { hideLoading(); logout(); }
         }
 
         function showTab(tab) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'none';
             document.getElementById('forgotPasswordForm').style.display = 'none';
             document.getElementById('resetPasswordForm').style.display = 'none';
-            
-            if (tab === 'login') {
-                tabs[0].classList.add('active');
-                document.getElementById('loginForm').style.display = 'block';
-            } else if (tab === 'register') {
-                tabs[1].classList.add('active');
-                document.getElementById('registerForm').style.display = 'block';
-            }
+            if (tab === 'login') { document.querySelectorAll('.tab')[0].classList.add('active'); document.getElementById('loginForm').style.display = 'block'; }
+            else if (tab === 'register') { document.querySelectorAll('.tab')[1].classList.add('active'); document.getElementById('registerForm').style.display = 'block'; }
             hideMessage('authMessage');
         }
 
@@ -722,20 +382,17 @@
             document.getElementById('forgotPasswordForm').style.display = 'block';
             document.getElementById('resetPasswordForm').style.display = 'none';
         }
-
         function showResetPassword() {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'none';
             document.getElementById('forgotPasswordForm').style.display = 'none';
             document.getElementById('resetPasswordForm').style.display = 'block';
         }
-
         function showMessage(id, text, type) {
             const el = document.getElementById(id);
             el.textContent = text;
             el.className = 'message ' + type;
         }
-
         function hideMessage(id) {
             const el = document.getElementById(id);
             el.className = 'message';
@@ -746,201 +403,87 @@
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value;
-
-            if (!name || !email || !password) {
-                showMessage('authMessage', 'Please fill in all fields', 'error');
-                return;
-            }
-
+            if (!name || !email || !password) { showMessage('authMessage', 'Please fill in all fields', 'error'); return; }
             const btn = document.getElementById('registerBtn');
             btn.disabled = true;
             showLoading('Creating account...');
-
             try {
                 const response = await fetch(`${API_URL}/auth/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, password })
                 });
-
-                let data;
-                try {
-                    data = await response.json();
-                } catch (e) {
-                    data = null;
-                }
-
-                hideLoading();
-                btn.disabled = false;
-
-                if (response.ok) {
-                    showMessage('authMessage', 'Registration successful! Please login.', 'success');
-                    showTab('login');
-                } else {
-                    let errorMsg = 'Registration failed';
-                    if (data && Array.isArray(data.detail)) {
-                        errorMsg = data.detail.map(e => e.msg || JSON.stringify(e)).join(', ');
-                    } else if (data && typeof data.detail === 'string') {
-                        errorMsg = data.detail;
-                    } else if (data && data.detail) {
-                        errorMsg = JSON.stringify(data.detail);
-                    } else if (data && data.message) {
-                        errorMsg = data.message;
-                    } else if (!data) {
-                        errorMsg = `Server error (${response.status})`;
-                    }
-                    showMessage('authMessage', errorMsg, 'error');
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                showMessage('authMessage', 'Network error - check your connection', 'error');
-            }
+                let data; try { data = await response.json(); } catch (e) { data = null; }
+                hideLoading(); btn.disabled = false;
+                if (response.ok) { showMessage('authMessage', 'Registration successful! Please login.', 'success'); showTab('login'); }
+                else { showMessage('authMessage', data?.detail || 'Registration failed', 'error'); }
+            } catch (err) { hideLoading(); btn.disabled = false; showMessage('authMessage', 'Network error', 'error'); }
         }
 
         async function login() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                showMessage('authMessage', 'Please fill in all fields', 'error');
-                return;
-            }
-
+            if (!email || !password) { showMessage('authMessage', 'Please fill in all fields', 'error'); return; }
             const btn = document.getElementById('loginBtn');
             btn.disabled = true;
-            showLoading('Logging in... Please wait');
-
+            showLoading('Logging in...');
             try {
                 const response = await fetch(`${API_URL}/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
                 });
-
-                let data;
-                try {
-                    data = await response.json();
-                } catch (e) {
-                    data = null;
-                }
-
-                hideLoading();
-                btn.disabled = false;
-
+                let data; try { data = await response.json(); } catch (e) { data = null; }
+                hideLoading(); btn.disabled = false;
                 if (response.ok && data) {
                     token = data.access_token;
                     currentUser = data.user || { name: email.split('@')[0] };
                     localStorage.setItem('token', token);
                     showApp();
-                } else {
-                    let errorMsg = 'Login failed';
-                    if (data && Array.isArray(data.detail)) {
-                        errorMsg = data.detail.map(e => e.msg || JSON.stringify(e)).join(', ');
-                    } else if (data && typeof data.detail === 'string') {
-                        errorMsg = data.detail;
-                    } else if (data && data.detail) {
-                        errorMsg = JSON.stringify(data.detail);
-                    } else if (data && data.message) {
-                        errorMsg = data.message;
-                    } else if (!data) {
-                        errorMsg = `Server error (${response.status})`;
-                    }
-                    showMessage('authMessage', errorMsg, 'error');
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                showMessage('authMessage', 'Network error - check your connection', 'error');
-            }
+                } else { showMessage('authMessage', data?.detail || 'Login failed', 'error'); }
+            } catch (err) { hideLoading(); btn.disabled = false; showMessage('authMessage', 'Network error', 'error'); }
         }
 
         async function forgotPassword() {
             const email = document.getElementById('forgotEmail').value.trim();
-            
-            if (!email) {
-                showMessage('authMessage', 'Please enter your email', 'error');
-                return;
-            }
-
+            if (!email) { showMessage('authMessage', 'Please enter your email', 'error'); return; }
             const btn = document.getElementById('forgotBtn');
             btn.disabled = true;
             showLoading('Sending reset link...');
-
             try {
                 const response = await fetch(`${API_URL}/auth/forgot-password`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
                 });
-
-                hideLoading();
-                btn.disabled = false;
-
-                let data;
-                try { data = await response.json(); } catch(e) { data = null; }
-
+                hideLoading(); btn.disabled = false;
+                let data; try { data = await response.json(); } catch(e) { data = null; }
                 if (response.ok) {
-                    showMessage('authMessage', 'Reset token generated! Check console for token.', 'success');
-                    if (data && data.token) {
-                        console.log('Reset token:', data.token);
-                        document.getElementById('resetToken').value = data.token;
-                        showResetPassword();
-                    }
-                } else {
-                    showMessage('authMessage', data && data.detail ? data.detail : 'Failed to send reset link', 'error');
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                showMessage('authMessage', 'Network error', 'error');
-            }
+                    showMessage('authMessage', 'Reset token generated! Check console.', 'success');
+                    if (data?.token) { document.getElementById('resetToken').value = data.token; showResetPassword(); }
+                } else { showMessage('authMessage', data?.detail || 'Failed', 'error'); }
+            } catch (err) { hideLoading(); btn.disabled = false; showMessage('authMessage', 'Network error', 'error'); }
         }
 
         async function resetPassword() {
             const token = document.getElementById('resetToken').value.trim();
             const newPassword = document.getElementById('newPassword').value;
-
-            if (!token || !newPassword) {
-                showMessage('authMessage', 'Please fill in all fields', 'error');
-                return;
-            }
-
+            if (!token || !newPassword) { showMessage('authMessage', 'Please fill in all fields', 'error'); return; }
             const btn = document.getElementById('resetBtn');
             btn.disabled = true;
             showLoading('Resetting password...');
-
             try {
                 const response = await fetch(`${API_URL}/auth/reset-password`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token, new_password: newPassword })
                 });
-
-                hideLoading();
-                btn.disabled = false;
-
-                let data;
-                try { data = await response.json(); } catch(e) { data = null; }
-
-                if (response.ok) {
-                    showMessage('authMessage', 'Password reset successful! Please login.', 'success');
-                    showTab('login');
-                } else {
-                    showMessage('authMessage', data && data.detail ? data.detail : 'Failed to reset password', 'error');
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                showMessage('authMessage', 'Network error', 'error');
-            }
+                hideLoading(); btn.disabled = false;
+                let data; try { data = await response.json(); } catch(e) { data = null; }
+                if (response.ok) { showMessage('authMessage', 'Password reset successful! Please login.', 'success'); showTab('login'); }
+                else { showMessage('authMessage', data?.detail || 'Failed', 'error'); }
+            } catch (err) { hideLoading(); btn.disabled = false; showMessage('authMessage', 'Network error', 'error'); }
         }
 
         function logout() {
             localStorage.removeItem('token');
-            token = null;
-            currentUser = null;
-            currentGroupId = null;
+            token = null; currentUser = null; currentGroupId = null;
             document.getElementById('authSection').style.display = 'block';
             document.getElementById('appSection').style.display = 'none';
             document.getElementById('groupsList').style.display = 'block';
@@ -965,111 +508,45 @@
         async function loadGroups() {
             const container = document.getElementById('groupsContainer');
             container.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Loading groups...</div>';
-
             try {
-                const response = await fetch(`${API_URL}/groups/`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    showMessage('authMessage', 'Session expired. Please login again.', 'error');
-                    return;
-                }
-
-                if (!response.ok) {
-                    container.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading groups. Please try again.</div>';
-                    return;
-                }
-
+                const response = await fetch(`${API_URL}/groups/`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (response.status === 401) { logout(); showMessage('authMessage', 'Session expired. Please login again.', 'error'); return; }
+                if (!response.ok) { container.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading groups.</div>'; return; }
                 const groups = await response.json();
-                
-                if (groups.length === 0) {
-                    container.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">No groups yet. Create one above!</div>';
-                    return;
-                }
-
+                if (groups.length === 0) { container.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">No groups yet. Create one above!</div>'; return; }
                 container.innerHTML = '';
                 groups.forEach(group => {
                     const div = document.createElement('div');
                     div.className = 'card group-item';
-                    
                     const name = (group.name || 'Unnamed Group').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                     const desc = (group.description || 'No description').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    
-                    div.innerHTML = `
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <div>
-                                <div class="card-title">${name}</div>
-                                <div class="card-desc">${desc}</div>
-                            </div>
-                            <button class="delete-btn" data-group-id="${group.id}">Delete</button>
-                        </div>
-                    `;
-                    
+                    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="card-title">${name}</div><div class="card-desc">${desc}</div></div><button class="delete-btn" data-group-id="${group.id}">Delete</button></div>`;
                     div.addEventListener('click', function(e) {
-                        if (e.target.classList.contains('delete-btn')) {
-                            e.stopPropagation();
-                            openDeleteModal(group.id);
-                        } else {
-                            selectGroup(group.id, group.name, group.description);
-                        }
+                        if (e.target.classList.contains('delete-btn')) { e.stopPropagation(); openDeleteModal(group.id); }
+                        else { selectGroup(group.id, group.name, group.description); }
                     });
-                    
                     container.appendChild(div);
                 });
-            } catch (err) {
-                container.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading groups. Please refresh.</div>';
-            }
+            } catch (err) { container.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading groups.</div>'; }
         }
 
         async function createGroup() {
             const name = document.getElementById('groupName').value.trim();
             const description = document.getElementById('groupDesc').value.trim();
-
-            if (!name) {
-                alert('Please enter a group name');
-                return;
-            }
-
+            if (!name) { alert('Please enter a group name'); return; }
             const btn = document.getElementById('createGroupBtn');
             btn.disabled = true;
             showLoading('Creating group...');
-
             try {
                 const response = await fetch(`${API_URL}/groups/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({ name, description, member_emails: [] })
                 });
-
-                hideLoading();
-                btn.disabled = false;
-
-                if (response.status === 401) {
-                    logout();
-                    showMessage('authMessage', 'Session expired. Please login again.', 'error');
-                    return;
-                }
-
-                if (response.ok) {
-                    document.getElementById('groupName').value = '';
-                    document.getElementById('groupDesc').value = '';
-                    loadGroups();
-                } else {
-                    let data;
-                    try { data = await response.json(); } catch(e) { data = null; }
-                    const msg = data && data.detail ? (Array.isArray(data.detail) ? data.detail.map(e=>e.msg).join(', ') : data.detail) : 'Failed to create group';
-                    alert(msg);
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                alert('Network error - please try again');
-            }
+                hideLoading(); btn.disabled = false;
+                if (response.status === 401) { logout(); return; }
+                if (response.ok) { document.getElementById('groupName').value = ''; document.getElementById('groupDesc').value = ''; loadGroups(); }
+                else { let data; try { data = await response.json(); } catch(e) { data = null; } alert(data?.detail || 'Failed to create group'); }
+            } catch (err) { hideLoading(); btn.disabled = false; alert('Network error'); }
         }
 
         function selectGroup(id, name, description) {
@@ -1084,155 +561,57 @@
 
         async function inviteMember() {
             const email = document.getElementById('inviteEmail').value.trim();
-            
-            if (!email) {
-                alert('Please enter an email');
-                return;
-            }
-
+            if (!email) { alert('Please enter an email'); return; }
             const btn = document.getElementById('inviteBtn');
             btn.disabled = true;
             showLoading('Sending invite...');
-
             try {
                 const response = await fetch(`${API_URL}/groups/invite`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({ email, group_id: currentGroupId })
                 });
-
-                hideLoading();
-                btn.disabled = false;
-
-                if (response.status === 401) {
-                    logout();
-                    return;
-                }
-
-                let data;
-                try { data = await response.json(); } catch(e) { data = null; }
-
-                if (response.ok) {
-                    document.getElementById('inviteEmail').value = '';
-                    alert(data && data.message ? data.message : 'Invite sent!');
-                    loadExpenses();
-                } else {
-                    alert(data && data.detail ? data.detail : 'Failed to send invite');
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                alert('Network error - please try again');
-            }
+                hideLoading(); btn.disabled = false;
+                if (response.status === 401) { logout(); return; }
+                let data; try { data = await response.json(); } catch(e) { data = null; }
+                if (response.ok) { document.getElementById('inviteEmail').value = ''; alert(data?.message || 'Invite sent!'); loadExpenses(); }
+                else { alert(data?.detail || 'Failed to send invite'); }
+            } catch (err) { hideLoading(); btn.disabled = false; alert('Network error'); }
         }
 
         function exportExpenses() {
             if (!currentGroupId) return;
-            
             showLoading('Downloading CSV...');
-            
-            fetch(`${API_URL}/expenses/export/${currentGroupId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-            .then(response => {
-                hideLoading();
-                if (response.status === 401) {
-                    logout();
-                    return null;
-                }
-                if (!response.ok) {
-                    alert('Failed to export');
-                    return null;
-                }
-                return response.blob();
-            })
-            .then(blob => {
-                if (!blob) return;
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `expenses_group_${currentGroupId}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            })
-            .catch(err => {
-                hideLoading();
-                alert('Network error');
-            });
+            fetch(`${API_URL}/expenses/export/${currentGroupId}`, { headers: { 'Authorization': `Bearer ${token}` } })
+            .then(response => { hideLoading(); if (response.status === 401) { logout(); return null; } if (!response.ok) { alert('Failed to export'); return null; } return response.blob(); })
+            .then(blob => { if (!blob) return; const url = window.URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `expenses_group_${currentGroupId}.csv`; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); document.body.removeChild(a); })
+            .catch(err => { hideLoading(); alert('Network error'); });
         }
 
         async function loadExpenses() {
             const list = document.getElementById('expensesList');
             list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Loading expenses...</div>';
-
             try {
-                const response = await fetch(`${API_URL}/expenses/group/${currentGroupId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    return;
-                }
-
-                if (!response.ok) {
-                    let data;
-                    try { data = await response.json(); } catch(e) { data = null; }
-                    list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses (${response.status})</div>`;
-                    return;
-                }
-
+                const response = await fetch(`${API_URL}/expenses/group/${currentGroupId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (response.status === 401) { logout(); return; }
+                if (!response.ok) { list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses.</div>'; return; }
                 const expenses = await response.json();
-                
-                const membersResponse = await fetch(`${API_URL}/groups/`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+                const membersResponse = await fetch(`${API_URL}/groups/`, { headers: { 'Authorization': `Bearer ${token}` } });
                 let members = [];
-                if (membersResponse.ok) {
-                    const groups = await membersResponse.json();
-                    const group = groups.find(g => g.id === currentGroupId);
-                    if (group && group.members) {
-                        members = group.members;
-                    }
-                }
-                
+                if (membersResponse.ok) { const groups = await membersResponse.json(); const group = groups.find(g => g.id === currentGroupId); if (group?.members) members = group.members; }
                 const select = document.getElementById('paidBy');
                 select.innerHTML = '';
-                members.forEach(m => {
-                    const opt = document.createElement('option');
-                    opt.value = m.id;
-                    opt.textContent = m.name || m.email;
-                    select.appendChild(opt);
-                });
-
-                if (expenses.length === 0) {
-                    list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">No expenses yet. Add one above!</div>';
-                    return;
-                }
-
+                members.forEach(m => { const opt = document.createElement('option'); opt.value = m.id; opt.textContent = m.name || m.email; select.appendChild(opt); });
+                if (expenses.length === 0) { list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">No expenses yet. Add one above!</div>'; return; }
                 list.innerHTML = '';
                 expenses.forEach(expense => {
                     const div = document.createElement('div');
                     div.className = 'expense-item';
-                    const payer = expense.paid_by ? (expense.paid_by.name || expense.paid_by.email) : 'Unknown';
+                    const payer = expense.paid_by?.name || expense.paid_by?.email || 'Unknown';
                     const category = expense.category || 'Other';
-                    div.innerHTML = `
-                        <div class="expense-info">
-                            <h4>${expense.description || 'No description'} <span class="category-tag category-${category}">${category}</span></h4>
-                            <p>Paid by ${payer} on ${new Date(expense.created_at).toLocaleDateString()}</p>
-                        </div>
-                        <div class="expense-amount">₹${expense.amount}</div>
-                    `;
+                    div.innerHTML = `<div class="expense-info"><h4>${expense.description || 'No description'} <span class="category-tag category-${category}">${category}</span></h4><p>Paid by ${payer} on ${new Date(expense.created_at).toLocaleDateString()}</p></div><div class="expense-amount">&#8377;${expense.amount}</div>`;
                     list.appendChild(div);
                 });
-            } catch (err) {
-                list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses</div>';
-            }
+            } catch (err) { list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading expenses.</div>'; }
         }
 
         async function addExpense() {
@@ -1240,201 +619,64 @@
             const amount = parseFloat(document.getElementById('expenseAmount').value);
             const paid_by_id = parseInt(document.getElementById('paidBy').value);
             const category = document.getElementById('expenseCategory').value;
-
-            if (!description || !amount || !paid_by_id) {
-                alert('Please fill in all fields');
-                return;
-            }
-
+            if (!description || !amount || !paid_by_id) { alert('Please fill in all fields'); return; }
             const btn = document.getElementById('addExpenseBtn');
             btn.disabled = true;
             showLoading('Adding expense...');
-
-            const payload = {
-                description,
-                amount,
-                group_id: currentGroupId,
-                paid_by_id,
-                category,
-                splits: []
-            };
-
+            const payload = { description, amount, group_id: currentGroupId, paid_by_id, category, splits: [] };
             try {
                 const response = await fetch(`${API_URL}/expenses/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify(payload)
                 });
-
-                hideLoading();
-                btn.disabled = false;
-
-                let data;
-                try { data = await response.json(); } catch(e) { data = null; }
-
-                if (response.status === 401) {
-                    logout();
-                    showMessage('authMessage', 'Session expired. Please login again.', 'error');
-                    return;
-                }
-
-                if (response.ok) {
-                    document.getElementById('expenseDesc').value = '';
-                    document.getElementById('expenseAmount').value = '';
-                    loadExpenses();
-                    loadBalances();
-                } else {
-                    let errorMsg = 'Failed to add expense';
-                    if (data && Array.isArray(data.detail)) {
-                        errorMsg = data.detail.map(e => {
-                            const field = e.loc && e.loc.length > 0 ? e.loc[e.loc.length - 1] : 'field';
-                            return `${field}: ${e.msg}`;
-                        }).join('\n');
-                    } else if (data && data.detail) {
-                        errorMsg = JSON.stringify(data.detail);
-                    } else if (data && data.message) {
-                        errorMsg = data.message;
-                    }
-                    alert(errorMsg);
-                }
-            } catch (err) {
-                hideLoading();
-                btn.disabled = false;
-                alert('Network error - please try again');
-            }
+                hideLoading(); btn.disabled = false;
+                let data; try { data = await response.json(); } catch(e) { data = null; }
+                if (response.status === 401) { logout(); return; }
+                if (response.ok) { document.getElementById('expenseDesc').value = ''; document.getElementById('expenseAmount').value = ''; loadExpenses(); loadBalances(); }
+                else { alert(data?.detail || 'Failed to add expense'); }
+            } catch (err) { hideLoading(); btn.disabled = false; alert('Network error'); }
         }
 
         async function loadBalances() {
             const list = document.getElementById('balancesList');
             list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Loading balances...</div>';
-
             try {
-                const response = await fetch(`${API_URL}/expenses/balances/${currentGroupId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    return;
-                }
-
-                if (!response.ok) {
-                    let errorText = '';
-                    try {
-                        const errData = await response.json();
-                        errorText = JSON.stringify(errData);
-                    } catch(e) {
-                        errorText = response.statusText;
-                    }
-                    list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error: ${response.status} - ${errorText}</div>`;
-                    return;
-                }
-
+                const response = await fetch(`${API_URL}/expenses/balances/${currentGroupId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (response.status === 401) { logout(); return; }
+                if (!response.ok) { list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances.</div>'; return; }
                 const balances = await response.json();
-                
-                let balanceEntries = [];
-                
+                let entries = [];
                 if (balances && typeof balances === 'object' && !Array.isArray(balances)) {
                     for (const [userId, userData] of Object.entries(balances)) {
-                        if (userData && typeof userData === 'object') {
-                            balanceEntries.push({
-                                name: userData.name || userData.user_name || `User ${userId}`,
-                                amount: parseFloat(userData.amount || 0)
-                            });
-                        }
+                        if (userData && typeof userData === 'object') entries.push({ name: userData.name || userData.user_name || `User ${userId}`, amount: parseFloat(userData.amount || 0) });
                     }
-                } else if (Array.isArray(balances)) {
-                    balanceEntries = balances.map(b => ({
-                        name: b.user_name || b.name || 'Unknown',
-                        amount: parseFloat(b.amount || 0)
-                    }));
-                }
-                
-                if (balanceEntries.length === 0) {
-                    list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">All settled up!</div>';
-                    return;
-                }
-
+                } else if (Array.isArray(balances)) { entries = balances.map(b => ({ name: b.user_name || b.name || 'Unknown', amount: parseFloat(b.amount || 0) })); }
+                if (entries.length === 0) { list.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">All settled up!</div>'; return; }
                 list.innerHTML = '';
-                balanceEntries.forEach(entry => {
+                entries.forEach(entry => {
                     const div = document.createElement('div');
                     div.className = 'balance-item';
-                    const amount = entry.amount;
-                    const isPositive = amount >= 0;
-                    div.innerHTML = `
-                        <span>${entry.name}</span>
-                        <span class="${isPositive ? 'balance-positive' : 'balance-negative'}">
-                            ${isPositive ? '+' : ''}₹${amount.toFixed(2)}
-                        </span>
-                    `;
+                    const isPositive = entry.amount >= 0;
+                    div.innerHTML = `<span>${entry.name}</span><span class="${isPositive ? 'balance-positive' : 'balance-negative'}">${isPositive ? '+' : ''}&#8377;${entry.amount.toFixed(2)}</span>`;
                     list.appendChild(div);
                 });
-            } catch (err) {
-                list.innerHTML = `<div style="text-align:center;padding:20px;color:#e74c3c;">Error: ${err.message}</div>`;
-            }
+            } catch (err) { list.innerHTML = '<div style="text-align:center;padding:20px;color:#e74c3c;">Error loading balances.</div>'; }
         }
 
-        function openDeleteModal(groupId) {
-            deleteGroupId = parseInt(groupId);
-            document.getElementById('deleteModal').classList.add('show');
-        }
-
-        function cancelDelete() {
-            deleteGroupId = null;
-            document.getElementById('deleteModal').classList.remove('show');
-        }
-
-        function deleteCurrentGroup() {
-            if (currentGroupId) {
-                openDeleteModal(currentGroupId);
-            }
-        }
+        function openDeleteModal(groupId) { deleteGroupId = parseInt(groupId); document.getElementById('deleteModal').classList.add('show'); }
+        function cancelDelete() { deleteGroupId = null; document.getElementById('deleteModal').classList.remove('show'); }
+        function deleteCurrentGroup() { if (currentGroupId) openDeleteModal(currentGroupId); }
 
         async function confirmDelete() {
-            if (!deleteGroupId) {
-                cancelDelete();
-                return;
-            }
-            
+            if (!deleteGroupId) { cancelDelete(); return; }
             showLoading('Deleting group...');
-            
             try {
-                const response = await fetch(`${API_URL}/groups/${deleteGroupId}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
+                const response = await fetch(`${API_URL}/groups/${deleteGroupId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
                 hideLoading();
-
-                if (response.status === 401) {
-                    cancelDelete();
-                    logout();
-                    showMessage('authMessage', 'Session expired. Please login again.', 'error');
-                    return;
-                }
-
-                if (response.ok) {
-                    cancelDelete();
-                    if (currentGroupId === deleteGroupId) {
-                        showGroupsList();
-                    } else {
-                        loadGroups();
-                    }
-                } else {
-                    let data;
-                    try { data = await response.json(); } catch(e) { data = null; }
-                    const msg = data && data.detail ? data.detail : `Failed to delete group (Error ${response.status})`;
-                    alert(msg);
-                    cancelDelete();
-                }
-            } catch (err) {
-                hideLoading();
-                alert('Network error - please try again');
-                cancelDelete();
-            }
+                if (response.status === 401) { cancelDelete(); logout(); return; }
+                if (response.ok) { cancelDelete(); if (currentGroupId === deleteGroupId) showGroupsList(); else loadGroups(); }
+                else { let data; try { data = await response.json(); } catch(e) { data = null; } alert(data?.detail || 'Failed to delete'); cancelDelete(); }
+            } catch (err) { hideLoading(); alert('Network error'); cancelDelete(); }
         }
     </script>
 </body>
