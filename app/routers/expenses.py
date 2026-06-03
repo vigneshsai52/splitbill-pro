@@ -88,10 +88,8 @@ def export_expenses_csv(
     output = io.StringIO()
     writer = csv.writer(output)
     
-    # Header
     writer.writerow(["Description", "Amount", "Category", "Paid By", "Date"])
     
-    # Data
     for expense in group.expenses:
         payer = expense.paid_by.name if expense.paid_by else "Unknown"
         writer.writerow([

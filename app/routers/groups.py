@@ -48,7 +48,6 @@ def delete_group(
     if group.created_by_id != current_user.id:
         raise HTTPException(status_code=403, detail="Only group creator can delete")
     
-    db.query(models.Expense).filter(models.Expense.group_id == group_id).delete()
     db.delete(group)
     db.commit()
     

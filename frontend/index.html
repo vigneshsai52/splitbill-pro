@@ -355,7 +355,6 @@
             border-top: 1px solid #e0e0e0;
         }
 
-        /* Loading Spinner Overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -467,7 +466,6 @@
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="spinner"></div>
         <div class="loading-text" id="loadingText">Please wait...</div>
@@ -479,7 +477,6 @@
             <p>Split expenses with friends, hassle-free</p>
         </div>
 
-        <!-- Auth Section -->
         <div id="authSection" class="auth-section">
             <div class="tabs">
                 <button class="tab active" onclick="showTab('login')">Login</button>
@@ -488,7 +485,6 @@
 
             <div id="authMessage" class="message"></div>
 
-            <!-- Login Form -->
             <div id="loginForm">
                 <div class="form-group">
                     <label>Email</label>
@@ -502,7 +498,6 @@
                 <div class="forgot-password" onclick="showForgotPassword()">Forgot Password?</div>
             </div>
 
-            <!-- Register Form -->
             <div id="registerForm" style="display: none;">
                 <div class="form-group">
                     <label>Name</label>
@@ -519,7 +514,6 @@
                 <button class="btn" id="registerBtn" onclick="register()">Register</button>
             </div>
 
-            <!-- Forgot Password Form -->
             <div id="forgotPasswordForm" style="display: none;">
                 <div class="form-group">
                     <label>Email</label>
@@ -529,7 +523,6 @@
                 <div class="forgot-password" onclick="showTab('login')">Back to Login</div>
             </div>
 
-            <!-- Reset Password Form -->
             <div id="resetPasswordForm" style="display: none;">
                 <div class="form-group">
                     <label>Reset Token</label>
@@ -544,7 +537,6 @@
             </div>
         </div>
 
-        <!-- App Section -->
         <div id="appSection" class="app-section">
             <div class="app-header">
                 <h2>My Dashboard</h2>
@@ -554,7 +546,6 @@
                 </div>
             </div>
 
-            <!-- Groups List -->
             <div id="groupsList">
                 <div class="section">
                     <h3>Create New Group</h3>
@@ -577,7 +568,6 @@
                 </div>
             </div>
 
-            <!-- Group Details -->
             <div id="groupDetails" style="display: none;">
                 <button class="btn btn-small back-btn" onclick="showGroupsList()">← Back to Groups</button>
                 
@@ -596,7 +586,6 @@
                     </div>
                 </div>
 
-                <!-- Invite Section -->
                 <div class="invite-section">
                     <h3>Invite Member</h3>
                     <div class="card">
@@ -651,7 +640,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal-overlay">
         <div class="modal">
             <h3>Delete Group?</h3>
@@ -670,7 +658,6 @@
         let currentGroupId = null;
         let deleteGroupId = null;
 
-        // Loading overlay functions
         function showLoading(text) {
             document.getElementById('loadingText').textContent = text || 'Please wait...';
             document.getElementById('loadingOverlay').classList.add('show');
@@ -680,7 +667,6 @@
             document.getElementById('loadingOverlay').classList.remove('show');
         }
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             if (token) {
                 validateToken();
@@ -898,7 +884,6 @@
                     showMessage('authMessage', 'Reset token generated! Check console for token.', 'success');
                     if (data && data.token) {
                         console.log('Reset token:', data.token);
-                        // Show reset form with token pre-filled
                         document.getElementById('resetToken').value = data.token;
                         showResetPassword();
                     }
@@ -1133,7 +1118,7 @@
                 if (response.ok) {
                     document.getElementById('inviteEmail').value = '';
                     alert(data && data.message ? data.message : 'Invite sent!');
-                    loadExpenses(); // Refresh member list
+                    loadExpenses();
                 } else {
                     alert(data && data.detail ? data.detail : 'Failed to send invite');
                 }
@@ -1156,11 +1141,11 @@
                 hideLoading();
                 if (response.status === 401) {
                     logout();
-                    return;
+                    return null;
                 }
                 if (!response.ok) {
                     alert('Failed to export');
-                    return;
+                    return null;
                 }
                 return response.blob();
             })

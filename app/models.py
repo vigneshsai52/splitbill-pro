@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.database import Base
 
-# Association table for group members
 group_members = Table(
     'group_members',
     Base.metadata,

@@ -2,7 +2,6 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from datetime import datetime
 
-# User schemas
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -20,8 +19,6 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
-
-# Group schemas
 class GroupCreate(BaseModel):
     name: str
     description: Optional[str] = None
@@ -37,8 +34,6 @@ class GroupResponse(BaseModel):
     class Config:
         from_attributes = True
 
-
-# Expense schemas
 class ExpenseSplitCreate(BaseModel):
     user_id: int
     amount_owed: float
@@ -62,8 +57,6 @@ class ExpenseResponse(BaseModel):
     class Config:
         from_attributes = True
 
-
-# Password reset schemas
 class PasswordResetRequest(BaseModel):
     email: EmailStr
 
@@ -71,14 +64,10 @@ class PasswordReset(BaseModel):
     token: str
     new_password: str
 
-
-# Invite schema
 class InviteRequest(BaseModel):
     email: EmailStr
     group_id: int
 
-
-# Balance schema
 class BalanceResponse(BaseModel):
     user_id: int
     user_name: str
