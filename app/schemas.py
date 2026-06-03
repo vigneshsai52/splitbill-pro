@@ -66,3 +66,12 @@ class BalanceResponse(BaseModel):
     user_id: int
     user_name: str
     amount: float
+
+
+# Password reset schemas
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+class PasswordReset(BaseModel):
+    token: str
+    new_password: str
