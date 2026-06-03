@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.routers import auth, groups, expenses
 
-# Create tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SplitBill Pro API")

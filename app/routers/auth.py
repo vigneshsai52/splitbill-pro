@@ -71,7 +71,6 @@ def forgot_password(request: schemas.PasswordResetRequest, db: Session = Depends
     user.reset_token = reset_token
     db.commit()
     
-    # In production, send email here. For now, return token for testing
     return {"message": "Password reset token generated", "token": reset_token}
 
 @router.post("/reset-password")
